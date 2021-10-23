@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Tweet Tweets</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="py-2 text-center mt-4">Tweet Tweets</h2>
+      <div class="row">
+        <div class="col-md-6 d-flex">
+          <div
+            class="
+              box-1
+              bg-white
+              w-100
+              align-self-end
+              px-5
+              d-flex
+              align-items-center
+            "
+          >
+            <form>
+              <input
+                class="form-control tweet-input"
+                type="text"
+                name="tweet"
+                placeholder="Type Tweet Text"
+              />
+              <input
+                type="submit"
+                value="Submit"
+                class="btn submit-btn w-100 mt-3"
+              />
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <input
+            class="form-control mt-3 filter mb-3 fw-bold"
+            type="text"
+            name="filter"
+            placeholder="Search Tweet"
+          />
+          <div class="box-2 bg-white p-4">
+            <ol class="collection">
+              <li class="tweet-item mb-3" id="product-0">
+                <div class="d-flex align-items-start">
+                  <span class=""
+                    >Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Numquam, ipsa!</span
+                  >
+                  <div class="d-flex">
+                    <button class="btn btn-secondary me-2">Edit</button>
+                    <button class="btn btn-danger">Delete</button>
+                  </div>
+                </div>
+              </li>
+              <li class="tweet-item mb-3" id="product-0">
+                <div class="d-flex align-items-start">
+                  <span class=""
+                    >Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Numquam, ipsa!</span
+                  >
+                  <div class="d-flex">
+                    <button class="btn btn-secondary me-2">Edit</button>
+                    <button class="btn btn-danger">Delete</button>
+                  </div>
+                </div>
+              </li>
+              
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+html {
+  font-family: sans-serif;
+}
+
+body {
+  background: url(images/body-bg.svg);
+}
+
+h2, .submit-btn {
+  background-color: #7b3056;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.submit-btn:hover {
+  color: #fff;
+}
+
+.box-1,
+.box-2 {
+  min-height: 50vh;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.tweet-input,
+.filter,
+.box-1,
+.box-2 {
+  border: 3px solid #7b3056d9;
+  border-radius: 5px;
+}
+
+form {
+  height: 7rem;
+  width: 100%;
+}
