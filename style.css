@@ -14,6 +14,12 @@ h2, .submit-btn {
   border-radius: 5px;
 }
 
+.input-group-text {
+  background-color: #7b3056;
+  color: #fff;
+  border-radius: 0px 5px 5px 0px;
+}
+
 .submit-btn:hover {
   color: #fff;
 }
@@ -25,11 +31,24 @@ h2, .submit-btn {
   overflow: auto;
 }
 
-.tweet-input,
 .filter,
 .box-1,
 .box-2 {
   border: 3px solid #7b3056d9;
+  border-radius: 5px;
+}
+
+.tweet-input {
+  border: 3px solid #7b3056d9;
+  border-right: 0;
+}
+
+.form-control:focus {
+  border-color: #7b3056d9;
+  box-shadow:none;
+}
+
+.input-group {
   border-radius: 5px;
 }
 

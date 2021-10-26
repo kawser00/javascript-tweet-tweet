@@ -7,15 +7,56 @@
   const submitBtn = document.querySelector(".submit-btn");
   const updateBtn = document.querySelector(".update-btn");
   const msg = document.querySelector(".msg");
+  const countInputChar = document.querySelector(".count-character");
+
+
+  const setDataToLocalStorage = (data) => localStorage.setItem("tweetItems", JSON.stringify(data));
+  const getParsedDataFromLocalStorage = () => JSON.parse(localStorage.getItem("tweetItems"));
+
+  const saveDataToLocalStorage = (tweet) => {
+    let tweets = "";
+    if (localStorage.getItem("tweetItems") === null) {
+      tweets = [];
+      tweets.push(tweet);
+      setDataToLocalStorage(tweets);
+    } else {
+      tweets = getParsedDataFromLocalStorage()
+      tweets.push(tweet);
+      setDataToLocalStorage(tweets);
+    }
+  };
+
+  const getDataFromLocalStorage = () => {
+    let tweets = "";
+    if (localStorage.getItem("tweetItems") === null) {
+      tweets = [];
+    } else {
+      tweets = getParsedDataFromLocalStorage()
+    }
+    return tweets;
+  };
+
+  const deleteDataFromLocalStorage = (id) => {
+    let tweets = getParsedDataFromLocalStorage()
+    const filteredTweets = tweets.filter((tweet) => tweet.id !== id);
+    setDataToLocalStorage(filteredTweets);
+    filteredTweets.length === 0 && location.reload();
+  };
 
   //all tweet data
-  let tweetData = [];
+  // let tweetData = [];
+  let tweetData = getDataFromLocalStorage();
 
   //load all event listeners
   const loadEventListener = () => {
     form.addEventListener("click", addOrUpdateTweet);
+    tweetInputElem.addEventListener("keyup", countCharacter);
     tweetListElem.addEventListener("click", editOrDeleteTweet);
     filterInputElem.addEventListener("keyup", filterTweet);
+    window.addEventListener(
+      "DOMContentLoaded",
+      displayTweet.bind(null, tweetData)
+    );
   };
 
   const showMessage = (message = "") => {
@@ -24,6 +65,9 @@
 
   tweetData.length === 0 && showMessage("No Tweet Available!!");
 
+  //calculate input character count
+  const countCharacter = (e) => countInputChar.innerText = `${e.target.value.length}/150`;
+  
   const addOrUpdateTweet = (e) => {
     e.preventDefault();
 
@@ -41,20 +85,20 @@
       ? (id = 0)
       : (id = tweetData[tweetData.length - 1].id + 1);
 
-      
     let time = new Date();
     let tweetTime = time.toLocaleString("en-US", {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
     });
-    console.log(tweetTime);
 
     const text = tweetInputElem.value;
     if (text === "") {
       alert("Please add a tweet");
     } else {
-      tweetData.push({ id, text, tweetTime });
+      const data = { id, text, tweetTime };
+      tweetData.push(data);
+      saveDataToLocalStorage(data);
       displayTweet(tweetData);
       tweetInputElem.value = "";
     }
@@ -72,12 +116,13 @@
     const hiddenInputVal = parseInt(hiddenInput.value);
     const findTweet = tweetData.find((t) => t.id === hiddenInputVal);
     findTweet.text = tweetInputElem.value;
+    setDataToLocalStorage(tweetData);
     displayTweet(tweetData);
   };
 
   const displayTweet = (tweetData) => {
     tweetListElem.innerHTML = "";
-    msg.innerText = "";
+    tweetData.length > 0 && (msg.innerText = "");
 
     tweetData.forEach(({ id, text, tweetTime }) => {
       let li = document.createElement("li");
@@ -85,15 +130,19 @@
       li.id = `product-${id}`;
       li.innerHTML = `
       <div class='d-flex align-items-start justify-content-between'>
-        <span class='me-2'>${text} <span class='ms-2 fw-bold'>${tweetTime}</span></span>
-        <div class='d-flex'>
-          <button class='btn btn-outline-secondary me-2 py-1 edit-btn'>Edit</button>
-          <button class='btn btn-outline-danger py-1 delete-btn'>Delete</button>
-        </div>
+      <div>
+        <span>${text} </span>
+        <span class='me-2 ms-2 fw-bold'>${tweetTime}</span>
+      </div>
+      <div class='d-flex'>
+        <button class='btn btn-outline-secondary me-2 py-1 edit-btn'>Edit</button>
+        <button class='btn btn-outline-danger py-1 delete-btn'>Delete</button>
+      </div>
       </div>`;
       tweetListElem.appendChild(li);
     });
   };
+  // displayTweet(tweetData);
 
   const editOrDeleteTweet = (e) => {
     const target = e.target.parentElement.parentElement.parentElement;
@@ -104,9 +153,11 @@
       //delete from data store
       const filteredTweet = tweetData.filter((t) => t.id !== id);
       tweetData = filteredTweet;
+      deleteDataFromLocalStorage(id);
     } else if (e.target.classList.contains("edit-btn")) {
       const tweetText =
-        e.target.parentElement.parentElement.firstElementChild.textContent;
+        e.target.parentElement.parentElement.firstElementChild.firstElementChild
+          .textContent;
       tweetInputElem.value = tweetText;
       populateEditTweet(id);
     }
@@ -133,7 +184,7 @@
 
     document.querySelectorAll(".collection .tweet-item").forEach((item) => {
       const tweetText =
-        item.firstElementChild.firstElementChild.textContent.toLocaleLowerCase();
+        item.firstElementChild.firstElementChild.firstElementChild.textContent.toLocaleLowerCase();
       if (tweetText.indexOf(text) === -1) {
         item.style.display = "none";
       } else {
@@ -144,9 +195,6 @@
 
     itemLength > 0 ? showMessage() : showMessage("No Tweet Found!");
   };
-  // var time = new Date();
-  // console.log(
-  //   time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-  // );
+
   loadEventListener();
 })();
